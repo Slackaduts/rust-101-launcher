@@ -1,4 +1,4 @@
-///Represents game-specific data like name, window class, and executable name.
+///Possible ports for KI game launching, depending on platform.
 pub enum Platform {
     WINDOWS = 12500,
     MACOS = 12600,

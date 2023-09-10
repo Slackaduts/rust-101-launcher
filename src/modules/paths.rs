@@ -7,7 +7,7 @@ use std::path::Path;
 /// * path (&str): Desired path to check, as a string slice.
 /// * game (&Game): Desired game to check with, as a reference to a Game struct.
 pub fn game_install_exists(path: &str, game: &Game) -> bool {
-    let dir_path: String = path.to_owned() + game.name + "\\";
+    let dir_path: String = format!("{}{}{}", path, game.name, "\\");
     let game_path: &str = &(dir_path + game.name + ".exe");
  
     return Path::new(game_path).exists();
