@@ -79,6 +79,7 @@ async fn read_from_stream(stream: &mut TcpStream, bytes: &mut [u8]) -> Result<us
 
 
 /// Gets the patch urls from the patch server.
+/// Ported from https://github.com/wizspoil/wizdiff/blob/374cd3262b02701c4d0067fd8e6b7612c9e4bb4f/wizdiff/webdriver.py#L18C18-L18C18
 /// # Arguments
 /// * game (&Game): Game to get patch urls for.
 /// * platform (&Platform): Platform to get patch urls for.
