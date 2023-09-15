@@ -79,9 +79,11 @@ async fn read_from_stream(stream: &mut TcpStream, bytes: &mut [u8]) -> Result<us
 
 
 /// Gets the patch urls from the patch server.
+/// # Arguments
+/// * game (&Game): Game to get patch urls for.
+/// * platform (&Platform): Platform to get patch urls for.
 pub async fn get_patch_urls(game: &Game<'_>, platform: &Platform) -> Result<(String, String), Error> {
     let url = format!("patch.us.{}.com:{}", game.name, platform.to_string());
-    println!("Connecting to {}...", url);
 
     // Connect to the patch server
     let mut stream = TcpStream::connect(url).await?;
@@ -101,6 +103,7 @@ pub async fn get_patch_urls(game: &Game<'_>, platform: &Platform) -> Result<(Str
     let mut data = vec![0u8; 4096];
     let _ = read_from_stream(&mut stream, &mut data).await?;
 
+    //Search for the URLs in the data read.
     let match_bytes = b"http".to_vec();
     let file_list_url_start = match find_subsequence(&match_bytes, &data, false) {
         Some(v) => v - 2,
@@ -112,6 +115,7 @@ pub async fn get_patch_urls(game: &Game<'_>, platform: &Platform) -> Result<(Str
         None => return Err(Error::new(ErrorKind::Other, "Unable to find base url in patch string.")),
     };
 
+    //Read the URLs from the data
     let file_list_url = read_url(file_list_url_start, &data)?;
     let base_url = read_url(base_url_start, &data)?;
 
